@@ -7,7 +7,7 @@ on:
   
 jobs:
   build:
-    uses: agahalou96/github-actions-reusable/.github/workflows/main.yml@v1
+    uses: agahalou96/github-actions-reusable/.github/workflows/main.yml@main
     with:
       login-server: githubactionsreusableregistry.azurecr.io 
     secrets:

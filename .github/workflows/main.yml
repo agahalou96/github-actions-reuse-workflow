@@ -1,12 +1,10 @@
-name: CI/CD
+name: Docker build
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       -  name: Checkout source
@@ -17,9 +15,16 @@ jobs:
            node-version: '18.x'
       -  name: Install dependencies
          run: npm install
-      -  name: Deploy to Azure Web App
-         uses: azure/webapps-deploy@v2
+      -  name: Run tests
+         run: npm test
+  build-and-push-docker:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      -  name: Build and push Docker image
+         uses: agahalou96/github-actions-reusable/.github/workflows/main.yml@v1
          with:
-           app-name: githubActionsDemoWebApp
-           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-           package: .
+           login-server: githubactionsreusableregistry.azurecr.io
+         env:
+           REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}
+           REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}

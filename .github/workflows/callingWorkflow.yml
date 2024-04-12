@@ -5,19 +5,11 @@ on:
     branches:
       main  
   
-jobs:  
-  build:  
-    runs-on: ubuntu-latest  
-      
-    env:  
-      REGISTRY_USERNAME: ${{ secrets.REGISTRY_USERNAME }}  
-      REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}  
-      
-    steps:  
-      -  name: Checkout repository  
-         uses: actions/checkout@v4  
-          
-      -  name: Build and push to registry  
-         uses: agahalou96/github-actions-reusable/.github/workflows/main.yml@v1  
-         with:  
-           login-server: githubactionsreusableregistry.azurecr.io  
+jobs:
+  build:
+    uses: agahalou96/github-actions-reusable/.github/workflows/main.yml@v1
+    with:
+      login-server: githubactionsreusableregistry.azurecr.io 
+    secrets:
+      registry-username: ${{ secrets.REGISTRY_USERNAME }}
+      registry-password: ${{ secrest.REGISTRY_PASSWORD }}
